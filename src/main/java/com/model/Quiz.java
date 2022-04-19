@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -16,12 +19,15 @@ import javax.persistence.*;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Question {
+public class Quiz {
     @Id
     @GeneratedValue
     private int id;
     @Column
-    private String text;
-    @ManyToOne
-    private Quiz quiz;
+    private String title;
+
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private List<Question> questions = new ArrayList<>();
+
 }
